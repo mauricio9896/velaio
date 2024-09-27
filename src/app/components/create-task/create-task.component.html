@@ -1,0 +1,84 @@
+<div class="container-fluid p-3">
+
+<h4>Crear Nueva Tarea</h4>
+<!-- <mat-dialog-content> -->
+  <form [formGroup]="taskForm" (submit)="saveTask()">
+
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field class="w-100">
+          <mat-label>Nombre de la tarea</mat-label>
+          <input matInput formControlName="taskName">
+          <mat-error>El campo es obligatorio</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field class="w-100">
+          <mat-label>Fecha límite</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="taskDate">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error>El campo es obligatorio</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row mt-2">
+      <span>
+        Agregar Personas
+      </span>
+      <button mat-icon-button type="button" color="primary" (click)="addPerson()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
+    <div class="mt-2" formArrayName="people">
+      <div class="row" *ngFor="let person of people.controls; let i = index" [formGroupName]="i">
+
+          <mat-form-field class="col-md-5">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
+
+          <mat-form-field class="col-md-5">
+            <mat-label>Edad</mat-label>
+            <input matInput formControlName="age">
+          </mat-form-field>
+
+          <div class="col-md-2">
+            <button mat-button (click)="removePerson(i)">Eliminar Persona</button>
+          </div>
+
+          <div class="col-12"  formArrayName="skills">
+
+
+            <div class="d-flex w-100 mt-2">
+              <button mat-flat-button type="button" color="primary" (click)="addSkill(i)">
+                Agregar Habilidades
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+
+            <div *ngFor="let skill of getSkills(i).controls; let j = index" [formGroupName]="j">
+              <mat-form-field class="w-100">
+                <mat-label>Nombre Habilidad</mat-label>
+                <input matInput formControlName="nameSkill">
+              </mat-form-field>
+              <button mat-button (click)="removeSkill(i, j)">Eliminar Habilidad</button>
+            </div>
+          </div>
+      </div>
+    </div>
+
+
+    <button mat-button type="submit">Guardar</button>
+  </form>
+
+
+<!-- </mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+</mat-dialog-actions> -->
+</div>
