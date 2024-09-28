@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
@@ -6,6 +6,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MatIconModule} from '@angular/material/icon';
+import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatListModule} from '@angular/material/list';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
 import {
   FormArray,
   FormBuilder,
@@ -33,10 +38,14 @@ import { CommonModule } from '@angular/common';
     MatDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
+    MatExpansionModule,
+    MatDividerModule,
+    MatListModule,
+    MatTooltipModule
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateTaskComponent {
+export class CreateTaskComponent implements OnInit {
   taskForm: FormGroup;
 
   get people(): FormArray {
@@ -55,6 +64,10 @@ export class CreateTaskComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.addPerson();
+  }
+
   addPerson(): void {
     this.people.push(
       this.fb.group({
@@ -63,6 +76,7 @@ export class CreateTaskComponent {
         skills: this.fb.array([], Validators.required),
       })
     );
+    this.addSkill(this.people.length - 1);
   }
 
   removePerson(index: number): void {
@@ -83,9 +97,9 @@ export class CreateTaskComponent {
     skills.removeAt(skillIndex);
   }
 
-  saveTask(): void {
+  saveTask(): void{
+    this.people.controls.forEach(control => control.markAllAsTouched());
+    if(this.taskForm.invalid) return alert("Formulario Invalido");
     console.log(this.taskForm.value);
-    if (this.taskForm.valid) {
-    }
   }
 }

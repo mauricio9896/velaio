@@ -1,8 +1,8 @@
 :root {
-  --background-color: rgba(35, 47, 108, 0.25);
+  --background-color: rgba(94, 107, 183, 0.25);
   --color: white;
   --color-second: black;
-  --primary-color: rgb(20, 29, 56);
+  --primary-color: rgb(33, 30, 59);
   --secondary-color: rgb(66, 186, 255);
 }
 
@@ -18,5 +18,47 @@ body {
   background-color: #f4f4f4;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+
+  label {
+    font-weight: 500;
+    color: var(--primary-color);
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+
+  input {
+    height: 50px;
+    padding: 8px 20px;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  input:focus {
+    border-color: rgba(66, 186, 255, 0.2);
+    box-shadow: 0 0 0 3px rgba(66, 186, 255, 0.2);
+    outline: none;
+  }
+
+  .error-message {
+    margin-top: 5px;
+    margin-left: 8px;
+    font-size: 14px;
+    color: #e53935;
+  }
+}
+

@@ -1,0 +1,17 @@
+.content {
+  color: var(--primary-color);
+}
+#labelPeople {
+  font-weight: 500;
+  color: var(--primary-color);
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+.headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
