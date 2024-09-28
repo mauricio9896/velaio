@@ -10,11 +10,15 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CreateTaskComponent } from "./components/create-task/create-task.component";
+import { PageTaskComponent } from './components/page-task/page-task.component';
+import { ListTaskComponent } from './components/list-task/list-task.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
+    PageTaskComponent,
+    ListTaskComponent,
   ],
   imports: [
     BrowserModule,

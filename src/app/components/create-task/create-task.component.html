@@ -1,113 +1,115 @@
-<div class="container-fluid p-3 content">
-  <form [formGroup]="taskForm" (submit)="saveTask()">
-    <div class="row">
-      <div class="col-md-3 input-container">
-        <label>Nombre de la tarea</label>
-        <input type="text" formControlName="taskName" placeholder="Escribe aquí...">
-        <div *ngIf="taskForm.get('taskName')?.invalid && taskForm.get('taskName')?.touched" class="error-message">
-          El campo es obligatorio
+<form [formGroup]="taskForm" (submit)="saveTask()">
+  <h2 mat-dialog-title>Crear Nueva Tarea</h2>
+
+  <mat-dialog-content class="mat-typography">
+    <div class="container-fluid p-3 content">
+      <div class="row">
+        <div class="col-md-12 input-container">
+          <label>Nombre de la tarea</label>
+          <input type="text" formControlName="taskName" placeholder="Escribe aquí...">
+          <div *ngIf="taskForm.get('taskName')?.invalid && taskForm.get('taskName')?.touched" class="error-message">
+            El campo es obligatorio
+          </div>
+        </div>
+
+        <div class="col-md-12 input-container">
+          <label>Fecha límite</label>
+          <input type="date" formControlName="taskDate">
+          <div *ngIf="taskForm.get('taskDate')?.invalid && taskForm.get('taskDate')?.touched" class="error-message">
+            El campo es obligatorio
+          </div>
         </div>
       </div>
 
-      <div class="col-md-3 input-container">
-        <label>Fecha límite</label>
-        <input type="date" formControlName="taskDate">
-        <div *ngIf="taskForm.get('taskDate')?.invalid && taskForm.get('taskDate')?.touched" class="error-message">
-          El campo es obligatorio
-        </div>
-      </div>
-    </div>
+      <label id="labelPeople">Personas Asociadas</label>
 
-    <label id="labelPeople">Personas Asociadas</label>
+      <div formArrayName="people">
+        <div class="mb-2" *ngFor="let person of people.controls; let i = index" [formGroupName]="i">
+          <mat-accordion class="headers-align" multi>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title class="panel-title">
+                  {{ person.value.name || 'Persona ' + (i + 1) }}
+                </mat-panel-title>
 
-    <div formArrayName="people">
-      <div class="mb-2" *ngFor="let person of people.controls; let i = index" [formGroupName]="i">
-        <mat-accordion class="headers-align" multi>
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                {{ person.value.name || 'Persona ' + (i + 1) }}
-              </mat-panel-title>
+                <mat-panel-description>
+                  <mat-error *ngIf="!person.valid && person.touched">
+                    Por favor llene todos los campos
+                  </mat-error>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
 
-              <mat-panel-description>
-                <mat-error *ngIf="!person.valid && person.touched; else test">Por favor llene todos los campos</mat-error>
-                <ng-template #test>
-                  <span></span>
-                </ng-template>
-
-                <mat-icon>account_circle</mat-icon>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-
-            <div class="row">
-              <div class="col-md-3 input-container">
-                <label>Nombre</label>
-                <input type="text" formControlName="name" placeholder="Escribe aquí...">
-                <div *ngIf="false" class="error-message">
-                  El campo es obligatorio
-                </div>
-              </div>
-
-              <div class="col-md-3 input-container">
-                <label>Edad</label>
-                <input type="number" formControlName="age" placeholder="Escribe aquí..." min="18">
-                <div *ngIf="false" class="error-message">
-                  El campo es obligatorio
-                </div>
-              </div>
-            </div>
-
-            <label id="labelPeople">Habilidades</label>
-
-            <div formArrayName="skills">
-              <div class="row align-items-center " *ngFor="let skill of getSkills(i).controls; let j = index" [formGroupName]="j">
-                <div class="col-12 col-sm-10 input-container">
-                  <input type="text" formControlName="nameSkill" placeholder="Escribe aquí...">
+              <div class="row">
+                <div class="col-md-12 input-container">
+                  <label>Nombre</label>
+                  <input type="text" formControlName="name" placeholder="Escribe aquí...">
                   <div *ngIf="false" class="error-message">
                     El campo es obligatorio
                   </div>
                 </div>
-                <div class="col-12 col-sm-2 mb-2">
-                  <button mat-mini-fab type="button" color="warn" class="mx-3" (click)="removeSkill(i,j)" matTooltip="Eliminar Habilidad">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </div>
 
-              </div>
-
-              <div class="row my-2">
-                <div class="col-12 col-sm-12">
-                  <button type="button" class="btn btn-warning w-100" (click)="addSkill(i)">Añadir Habilidad</button>
+                <div class="col-md-12 input-container">
+                  <label>Edad</label>
+                  <input type="number" formControlName="age" placeholder="Escribe aquí..." min="18">
+                  <div *ngIf="false" class="error-message">
+                    El campo es obligatorio
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <mat-action-row>
-              <button type="button" class="btn btn-danger w-10" (click)="removePerson(i)">
-                Eliminar Persona
-              </button>
-            </mat-action-row>
+              <label id="labelPeople">Habilidades</label>
 
-            <!-- <div class="row justify-content-end">
-              <div class="col-md-2">
+              <div formArrayName="skills">
+                <div class="row align-items-center " *ngFor="let skill of getSkills(i).controls; let j = index"
+                  [formGroupName]="j">
+                  <div class="col-10 input-container">
+                    <input type="text" formControlName="nameSkill" placeholder="Escribe aquí...">
+                    <div *ngIf="false" class="error-message">
+                      El campo es obligatorio
+                    </div>
+                  </div>
+                  <div class="col-2 mb-2">
+                    <button mat-mini-fab type="button" color="warn" (click)="removeSkill(i,j)"
+                      matTooltip="Eliminar Habilidad">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+
+                </div>
+
+                <div class="row my-2">
+                  <div class="col-12 col-sm-12">
+                    <button type="button" class="btn btn-warning w-100" (click)="addSkill(i)">Añadir Habilidad</button>
+                  </div>
+                </div>
+              </div>
+
+              <mat-action-row>
+                <button type="button" class="btn btn-danger w-10" (click)="removePerson(i)">
+                  Eliminar Persona
+                </button>
+              </mat-action-row>
+
+              <!-- <div class="row justify-content-end">
+              <div class="col-md-12">
 
               </div>
             </div> -->
-          </mat-expansion-panel>
-        </mat-accordion>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
       </div>
-    </div>
 
-    <div class="row my-3 justify-content-center">
-      <div class="col-md-3">
-        <button class="btn btn-primary w-100" type="button" (click)="addPerson()">Añadir Persona</button>
+      <div class="row my-3 justify-content-center">
+        <div class="col-md-12">
+          <button class="btn btn-primary w-100" type="button" (click)="addPerson()">Añadir Persona</button>
+        </div>
       </div>
     </div>
+  </mat-dialog-content>
 
-    <div class="row my-3 justify-content-center">
-      <div class="col-md-3">
-        <button class="btn btn-success w-100" type="submit" [disabled]="this.taskForm.invalid">Guardar Tarea</button>
-      </div>
-    </div>
-  </form>
-</div>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-secondary mx-2" type="button" mat-dialog-close>Cancel</button>
+    <button class="btn btn-success" type="submit" [disabled]="this.taskForm.invalid">Guardar Tarea</button>
+  </mat-dialog-actions>
+</form>

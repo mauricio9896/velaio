@@ -1,6 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import { CreateTaskComponent } from './components/create-task/create-task.component';
-import { MatDialog } from '@angular/material/dialog';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -9,16 +7,5 @@ import { MatDialog } from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  title = 'velaio';
-
-  readonly dialog = inject(MatDialog);
-
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    this.dialog.open(CreateTaskComponent, {
-      width: '50%',
-      enterAnimationDuration,
-      exitAnimationDuration,
-      disableClose: true,
-    });
-  }
+  title = 'Velaio';
 }
