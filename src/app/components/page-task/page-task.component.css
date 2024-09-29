@@ -1,3 +1,23 @@
-*{
+* {
   color: var(--color);
+}
+
+.container a {
+  text-decoration: none;
+}
+.container button {
+  position: fixed;
+  right: 30px;
+  bottom: 10px;
+  height: 50px;
+  width: 50px;
+  font-size: 30px;
+  background-color: rgb(204, 93, 232);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  &:hover {
+    background-color: rgb(166, 45, 196);
+  }
 }

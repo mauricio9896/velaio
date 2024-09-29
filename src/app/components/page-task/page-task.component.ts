@@ -12,15 +12,13 @@ export class PageTaskComponent {
   readonly dialog = inject(MatDialog);
   readonly alerts = inject(AlertsService);
 
+  url : string = "https://github.com/mauricio9896/velaio/tree/master";
+
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(CreateTaskComponent, {
       enterAnimationDuration,
       exitAnimationDuration,
       disableClose: true,
     });
-  }
-
-  test(){
-    this.alerts.alertSuccess('Success!');
   }
 }
