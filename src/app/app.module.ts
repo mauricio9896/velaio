@@ -9,6 +9,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { PageTaskComponent } from './components/page-task/page-task.component';
 import { ListTaskComponent } from './components/list-task/list-task.component';
 import { MaterialModule } from './shared/material/material.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { MaterialModule } from './shared/material/material.module';
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
+    FormsModule,
     CreateTaskComponent
 ],
   providers: [],

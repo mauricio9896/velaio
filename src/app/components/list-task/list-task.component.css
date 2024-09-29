@@ -10,9 +10,16 @@
   padding: 10px;
   vertical-align: middle;
   color: var(--primary-color);
+  background-color: rgb(225, 240, 250);
 }
 .custom-table thead th {
   background-color: var(--secondary-color);
   color: var(--color);
   font-weight: 500;
 }
+
+.custom-row {
+  background-color: #f0f8ff !important;
+}
+
+/* const colors = ['#f0f8ff', '#e6e6fa']; */

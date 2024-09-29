@@ -1,7 +1,8 @@
 export interface TaskModel {
   taskName : string,
   taskDate: string,
-  people: PeopleModel[]
+  people: PeopleModel[],
+  completed: boolean
 }
 
 export interface PeopleModel {

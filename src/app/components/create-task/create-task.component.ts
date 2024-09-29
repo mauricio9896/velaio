@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnInit,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -54,7 +55,7 @@ import { AlertsService } from 'src/app/services/alerts.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class CreateTaskComponent {
+export class CreateTaskComponent implements OnInit {
   @ViewChild('closebutton') closebutton : any;
 
   private taskService = inject(TaskService);
@@ -67,9 +68,13 @@ export class CreateTaskComponent {
     this.taskForm = this.fb.group({
       taskName: ['', Validators.required],
       taskDate: ['', Validators.required],
-      people: this.fb.array([], [Validators.required]),
+      people: this.fb.array([]),
+      completed: false
     });
-    this.taskForm.get('people')?.setValidators(uniqueNameValidator());
+  }
+
+  ngOnInit(): void {
+    this.taskForm.get('people')?.setValidators([Validators.required, uniqueNameValidator()]);
   }
 
   get people(): FormArray {

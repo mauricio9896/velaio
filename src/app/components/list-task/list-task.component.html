@@ -13,11 +13,11 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngIf="tasks.length > 0; else emptyTable">
-            <tr *ngFor="let task of tasks">
-              <td>{{task.taskName}}</td>
-              <td>{{task.taskDate}}</td>
-              <td>
+          <ng-container *ngIf="tasks.length > 0; else emptyTable;">
+            <tr *ngFor="let task of tasks; let i = index">
+              <td [ngClass]="{'custom-row': i % 2 === 0}">{{task.taskName}}</td>
+              <td [ngClass]="{'custom-row': i % 2 === 0}">{{task.taskDate}}</td>
+              <td [ngClass]="{'custom-row': i % 2 === 0}">
                 <div class="container-fluid" *ngFor="let person of task.people; let j = index">
                   <strong>Nombre: </strong> {{person.name}}, <br>
                   <strong>Edad: </strong> {{person.age}}, <br>
@@ -28,20 +28,22 @@
                   <hr *ngIf="j !== task.people.length - 1">
                 </div>
               </td>
-              <td>
+              <td [ngClass]="{'custom-row': i % 2 === 0}">
                 <div class="form-check d-flex justify-content-center">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="task.completed"
+                    (change)="onCheckboxChange($event, task)">
                 </div>
               </td>
             </tr>
           </ng-container>
-          <ng-template #emptyTable>
-            <tr class="text-center">
-              <td colspan="4">No hay tareas</td>
-            </tr>
-          </ng-template>
         </tbody>
       </table>
     </div>
   </div>
 </div>
+
+<ng-template #emptyTable>
+  <tr class="text-center">
+    <td colspan="4">No hay tareas</td>
+  </tr>
+</ng-template>
