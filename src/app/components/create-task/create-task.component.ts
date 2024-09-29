@@ -69,8 +69,9 @@ export class CreateTaskComponent implements OnInit {
     this.taskForm = this.fb.group({
       taskName: ['', Validators.required],
       taskDate: ['', Validators.required],
-      people: this.fb.array([], Validators.required),
+      people: this.fb.array([], [Validators.required]),
     });
+    this.taskForm.get('people')?.setValidators(uniqueNameValidator());
   }
 
   ngOnInit(): void {
@@ -126,8 +127,13 @@ export class CreateTaskComponent implements OnInit {
   }
 }
 
-export function uniqueNameValidator(formArray: FormArray): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
+// Validador de nombres únicos
+export function uniqueNameValidator(): ValidatorFn {
+  return (formArray: AbstractControl): ValidationErrors | null => {
+    if (!(formArray instanceof FormArray)) {
+      return null;
+    }
+
     const names = formArray.controls.map(control => control.get('name')?.value);
     const hasDuplicate = names.some((name, index) => names.indexOf(name) !== index);
     return hasDuplicate ? { duplicateName: true } : null;
