@@ -24,8 +24,8 @@ export class ListTaskComponent implements OnInit  {
     });
   }
 
-  completedTask(event: any, task: TaskModel) {
-    task.completed = event.target.checked;
+  completedTask(task: TaskModel) {
+    task.completed = true;
     this.taskService.updateTasks(this.tasks);
     this.alertsService.alertSuccess('Tarea actualizada correctamente');
   }

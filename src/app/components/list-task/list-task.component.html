@@ -16,10 +16,10 @@
         <div class="card mb-3">
           <div class="card-body p-0">
             <div class="title-card px-3 pt-3">
-              <h5 class="card-title" [ngClass]="task.completed ? 'completed': 'pending'" >{{ task.taskName }} / {{task.completed ? 'Realizada' : 'Pendiente' }}</h5>
-              <h6 class="card-subtitle mb-4 text-muted"><strong>Fecha Límite:</strong> {{ task.taskDate }}</h6>
+              <h5 class="card-title" [ngClass]="task.completed ? 'completed': 'pending'">{{ task.taskName }} / {{task.completed ? 'Realizada' : 'Pendiente' }}</h5>
+              <h6 class="card-subtitle mb-4" [ngClass]="task.completed ? 'completed': 'pending'"><strong>Fecha Límite:</strong> {{ task.taskDate }}</h6>
             </div>
-
+            <hr>
             <div class="px-3" *ngFor="let person of task.people">
               <strong>Nombre:</strong> {{ person.name }} <br>
               <strong>Edad:</strong> {{ person.age }} <br>
@@ -27,7 +27,7 @@
               <span *ngFor="let skill of person.skills"> {{ skill.nameSkill }}
                 <span *ngIf="skill !== person.skills[person.skills.length - 1]">, </span>
               </span>
-              <hr *ngIf="person !== task.people[task.people.length - 1]">
+              <hr>
             </div>
 
             <div class="d-flex justify-content-between mt-3 px-3 pb-3">
@@ -35,7 +35,7 @@
                 <button class="btn btn-danger w-100" (click)="deleteTask(task)">Borrar</button>
               </div>
               <div class="col-md-4" *ngIf="!task.completed" >
-                <button class="btn btn-success" (click)="deleteTask(task)">Completar</button>
+                <button class="btn btn-success" (click)="completedTask(task)">Completar</button>
               </div>
             </div>
           </div>
