@@ -1,17 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {MatButtonModule} from '@angular/material/button';
-import {MatDialogModule} from '@angular/material/dialog';
-import { MatNativeDateModule } from '@angular/material/core';
 import { CreateTaskComponent } from "./components/create-task/create-task.component";
+
+import { AppComponent } from './app.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { PageTaskComponent } from './components/page-task/page-task.component';
 import { ListTaskComponent } from './components/list-task/list-task.component';
+import { MaterialModule } from './shared/material/material.module';
 
 @NgModule({
   declarations: [
@@ -22,11 +19,8 @@ import { ListTaskComponent } from './components/list-task/list-task.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatNativeDateModule,
+    MaterialModule,
     CreateTaskComponent
 ],
   providers: [],

@@ -1,6 +1,6 @@
-<form [formGroup]="taskForm" (submit)="saveTask()">
-  <h2 mat-dialog-title>Crear Nueva Tarea</h2>
+<h2 mat-dialog-title>Crear Nueva Tarea</h2>
 
+<form [formGroup]="taskForm" (submit)="saveTask()">
   <mat-dialog-content class="mat-typography">
     <div class="container-fluid p-3 content">
       <div class="row">
@@ -89,12 +89,6 @@
                   Eliminar Persona
                 </button>
               </mat-action-row>
-
-              <!-- <div class="row justify-content-end">
-              <div class="col-md-12">
-
-              </div>
-            </div> -->
             </mat-expansion-panel>
           </mat-accordion>
         </div>
@@ -110,6 +104,7 @@
 
   <mat-dialog-actions align="end">
     <button class="btn btn-secondary mx-2" type="button" mat-dialog-close>Cancel</button>
-    <button class="btn btn-success" type="submit" [disabled]="this.taskForm.invalid">Guardar Tarea</button>
+    <button class="btn btn-success" type="submit" [disabled]="this.taskForm.invalid">Guardar
+      Tarea</button>
   </mat-dialog-actions>
 </form>

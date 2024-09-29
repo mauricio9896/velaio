@@ -1,0 +1,18 @@
+.content{
+  color: var(--color);
+}
+.custom-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+.custom-table th,
+.custom-table td {
+  padding: 10px;
+  vertical-align: middle;
+  color: var(--primary-color);
+}
+.custom-table thead th {
+  background-color: var(--secondary-color);
+  color: var(--color);
+  font-weight: 500;
+}

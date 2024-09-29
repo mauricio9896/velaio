@@ -1,9 +1,9 @@
 :root {
-  --background-color: rgba(94, 107, 183, 0.25);
+  --background-color: rgb(33, 31, 59);
   --color: white;
   --color-second: black;
   --primary-color: rgb(33, 30, 59);
-  --secondary-color: rgb(66, 186, 255);
+  --secondary-color: rgb(14, 178, 232);
 }
 
 * {
@@ -12,21 +12,16 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
-  background-color: #f4f4f4;
-}
-
 html,
 body {
   height: 100%;
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
+/* Custom Input */
 .input-container {
   display: flex;
   flex-direction: column;
@@ -59,6 +54,21 @@ body {
     margin-left: 8px;
     font-size: 14px;
     color: #e53935;
+  }
+}
+
+.btn{
+  border: none;
+  border-radius: 24px;
+  font-size: 15px;
+  padding: 6px 20px;
+}
+
+.btn-primary {
+  background-color: var(--secondary-color);
+
+  &:hover{
+    background-color: rgb(10, 144, 188);
   }
 }
 

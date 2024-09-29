@@ -1,1 +1,42 @@
-tabla
+<div class="container-fluid content">
+  <h4 class="mb-4">Listado de tareas</h4>
+
+
+
+  <div class="row justify-content-center">
+    <div class="col-md-11">
+      <table class="table table-hover w-100 custom-table">
+        <thead class="table-light">
+          <tr>
+            <th scope="col">Tarea</th>
+            <th scope="col">Fecha Límite</th>
+            <th scope="col">Personas</th>
+            <th scope="col">Completada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of tasks">
+            <td>{{task.taskName}}</td>
+            <td>{{task.taskDate}}</td>
+            <td>
+              <div class="container-fluid" *ngFor="let person of task.people; let j = index">
+                <strong>Nombre: </strong> {{person.name}}, <br>
+                <strong>Edad: </strong> {{person.age}}, <br>
+                <strong>Habilidades: </strong>
+                <span *ngFor="let skill of person.skills; let i = index">{{skill.nameSkill}}
+                  <span *ngIf="i !== person.skills.length - 1">, </span>
+                </span>
+                <hr *ngIf="j !== task.people.length - 1">
+              </div>
+            </td>
+            <td>
+              <div class="form-check d-flex justify-content-center">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

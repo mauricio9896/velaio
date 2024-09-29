@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MatIconModule} from '@angular/material/icon';
-import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -14,13 +14,13 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {
   FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { TaskService } from 'src/app/services/task.service';
 
 @Component({
   selector: 'app-create-task',
@@ -46,6 +46,11 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateTaskComponent implements OnInit {
+
+  private taskService = inject(TaskService);
+  private fb = inject(FormBuilder);
+  private dialogRef = inject(MatDialogRef<CreateTaskComponent>);
+
   taskForm: FormGroup;
 
   get people(): FormArray {
@@ -56,7 +61,7 @@ export class CreateTaskComponent implements OnInit {
     return this.people.at(personIndex).get('skills') as FormArray;
   }
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
     this.taskForm = this.fb.group({
       taskName: ['', Validators.required],
       taskDate: ['', Validators.required],
@@ -98,8 +103,7 @@ export class CreateTaskComponent implements OnInit {
   }
 
   saveTask(): void{
-    this.people.controls.forEach(control => control.markAllAsTouched());
-    if(this.taskForm.invalid) return alert("Formulario Invalido");
-    console.log(this.taskForm.value);
+    this.taskService.addTask(this.taskForm.value);
+    this.dialogRef.close();
   }
 }
