@@ -1,26 +1,36 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import {MatIconModule} from '@angular/material/icon';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatListModule} from '@angular/material/list';
-import {MatTooltipModule} from '@angular/material/tooltip';
-
+import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TaskService } from 'src/app/services/task.service';
+import { AlertsService } from 'src/app/services/alerts.service';
+import { PeopleModel } from 'src/app/models/task.model';
 
 @Component({
   selector: 'app-create-task',
@@ -41,25 +51,19 @@ import { TaskService } from 'src/app/services/task.service';
     MatExpansionModule,
     MatDividerModule,
     MatListModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class CreateTaskComponent implements OnInit {
+  @ViewChild('closebutton') closebutton : any;
 
   private taskService = inject(TaskService);
+  private alertsService = inject(AlertsService);
   private fb = inject(FormBuilder);
-  private dialogRef = inject(MatDialogRef<CreateTaskComponent>);
 
   taskForm: FormGroup;
-
-  get people(): FormArray {
-    return this.taskForm.get('people') as FormArray;
-  }
-
-  getSkills(personIndex: number): FormArray {
-    return this.people.at(personIndex).get('skills') as FormArray;
-  }
 
   constructor() {
     this.taskForm = this.fb.group({
@@ -73,11 +77,19 @@ export class CreateTaskComponent implements OnInit {
     this.addPerson();
   }
 
+  get people(): FormArray {
+    return this.taskForm.get('people') as FormArray;
+  }
+
+  getSkills(personIndex: number): FormArray {
+    return this.people.at(personIndex).get('skills') as FormArray;
+  }
+
   addPerson(): void {
     this.people.push(
       this.fb.group({
-        name: ['', Validators.required],
-        age: [null, [Validators.required]],
+        name: [null, [Validators.required, Validators.minLength(6)]],
+        age: [null, [Validators.required, Validators.min(19)]],
         skills: this.fb.array([], Validators.required),
       })
     );
@@ -99,11 +111,26 @@ export class CreateTaskComponent implements OnInit {
 
   removeSkill(personIndex: number, skillIndex: number): void {
     const skills = this.getSkills(personIndex);
+    console.log('skills :>> ', skills);
+    console.log('skills.value :>> ', skills.value);
+    if(skills.value.length === 1) return this.alertsService.alertInfo("La persona debe tener al menos una habilidad");
     skills.removeAt(skillIndex);
   }
 
-  saveTask(): void{
+  saveTask(): void {
     this.taskService.addTask(this.taskForm.value);
-    this.dialogRef.close();
+    this.people.value.forEach((people: PeopleModel, index: number) => this.removePerson(index) );
+    this.taskForm.reset();
+    this.closebutton.nativeElement.click();
+    this.alertsService.alertSuccess('Tarea Creada!');
   }
 }
+
+export function uniqueNameValidator(formArray: FormArray): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const names = formArray.controls.map(control => control.get('name')?.value);
+    const hasDuplicate = names.some((name, index) => names.indexOf(name) !== index);
+    return hasDuplicate ? { duplicateName: true } : null;
+  };
+}
+

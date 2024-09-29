@@ -1,8 +1,6 @@
 <div class="container-fluid content">
   <h4 class="mb-4">Listado de tareas</h4>
 
-
-
   <div class="row justify-content-center">
     <div class="col-md-11">
       <table class="table table-hover w-100 custom-table">
@@ -15,26 +13,33 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let task of tasks">
-            <td>{{task.taskName}}</td>
-            <td>{{task.taskDate}}</td>
-            <td>
-              <div class="container-fluid" *ngFor="let person of task.people; let j = index">
-                <strong>Nombre: </strong> {{person.name}}, <br>
-                <strong>Edad: </strong> {{person.age}}, <br>
-                <strong>Habilidades: </strong>
-                <span *ngFor="let skill of person.skills; let i = index">{{skill.nameSkill}}
-                  <span *ngIf="i !== person.skills.length - 1">, </span>
-                </span>
-                <hr *ngIf="j !== task.people.length - 1">
-              </div>
-            </td>
-            <td>
-              <div class="form-check d-flex justify-content-center">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-              </div>
-            </td>
-          </tr>
+          <ng-container *ngIf="tasks.length > 0; else emptyTable">
+            <tr *ngFor="let task of tasks">
+              <td>{{task.taskName}}</td>
+              <td>{{task.taskDate}}</td>
+              <td>
+                <div class="container-fluid" *ngFor="let person of task.people; let j = index">
+                  <strong>Nombre: </strong> {{person.name}}, <br>
+                  <strong>Edad: </strong> {{person.age}}, <br>
+                  <strong>Habilidades: </strong>
+                  <span *ngFor="let skill of person.skills; let i = index">{{skill.nameSkill}}
+                    <span *ngIf="i !== person.skills.length - 1">, </span>
+                  </span>
+                  <hr *ngIf="j !== task.people.length - 1">
+                </div>
+              </td>
+              <td>
+                <div class="form-check d-flex justify-content-center">
+                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+          <ng-template #emptyTable>
+            <tr class="text-center">
+              <td colspan="4">No hay tareas</td>
+            </tr>
+          </ng-template>
         </tbody>
       </table>
     </div>
