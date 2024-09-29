@@ -2,6 +2,13 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 100vh;
+  height: 100vh;
   background-color: var(--background-color);
+  overflow: hidden;
+}
+
+.container-pages{
+  overflow-y: scroll;
+  min-height: calc(100vh - 50px);
+  overflow-x: hidden;
 }
