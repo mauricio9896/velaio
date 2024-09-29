@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   OnInit,
   ViewChild,
   inject,
@@ -56,7 +57,7 @@ import { AlertsService } from 'src/app/services/alerts.service';
 })
 
 export class CreateTaskComponent implements OnInit {
-  @ViewChild('closebutton') closebutton : any;
+  @ViewChild('closebutton') closebutton !: ElementRef;
 
   private taskService = inject(TaskService);
   private alertsService = inject(AlertsService);
