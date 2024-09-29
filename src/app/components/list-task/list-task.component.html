@@ -30,11 +30,11 @@
               <hr>
             </div>
 
-            <div class="row px-3 pb-3">
-              <div class="col-5 col-sm-12 mt-3">
+            <div class="d-flex px-3 pb-3 justify-content-end">
+              <div class="mx-2">
                 <button class="btn btn-danger" (click)="deleteTask(task)">Borrar</button>
               </div>
-              <div class="col-4 col-sm-12 mt-3" *ngIf="!task.completed" >
+              <div *ngIf="!task.completed">
                 <button class="btn btn-success" (click)="completedTask(task)">Completar</button>
               </div>
             </div>
