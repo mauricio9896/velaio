@@ -14,7 +14,7 @@
         </thead>
         <tbody>
           <ng-container *ngIf="tasks.length > 0; else emptyTable">
-            <tr class="row" *ngFor="let task of tasks">
+            <tr *ngFor="let task of tasks">
               <td>{{task.taskName}}</td>
               <td>{{task.taskDate}}</td>
               <td>

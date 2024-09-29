@@ -1,12 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   ViewChild,
   inject,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -30,7 +29,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { TaskService } from 'src/app/services/task.service';
 import { AlertsService } from 'src/app/services/alerts.service';
-import { PeopleModel } from 'src/app/models/task.model';
 
 @Component({
   selector: 'app-create-task',
@@ -56,7 +54,7 @@ import { PeopleModel } from 'src/app/models/task.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class CreateTaskComponent implements OnInit {
+export class CreateTaskComponent {
   @ViewChild('closebutton') closebutton : any;
 
   private taskService = inject(TaskService);
@@ -72,10 +70,6 @@ export class CreateTaskComponent implements OnInit {
       people: this.fb.array([], [Validators.required]),
     });
     this.taskForm.get('people')?.setValidators(uniqueNameValidator());
-  }
-
-  ngOnInit(): void {
-    this.addPerson();
   }
 
   get people(): FormArray {
@@ -112,29 +106,23 @@ export class CreateTaskComponent implements OnInit {
 
   removeSkill(personIndex: number, skillIndex: number): void {
     const skills = this.getSkills(personIndex);
-    console.log('skills :>> ', skills);
-    console.log('skills.value :>> ', skills.value);
     if(skills.value.length === 1) return this.alertsService.alertInfo("La persona debe tener al menos una habilidad");
     skills.removeAt(skillIndex);
   }
 
   saveTask(): void {
     this.taskService.addTask(this.taskForm.value);
-    this.people.value.forEach((people: PeopleModel, index: number) => this.removePerson(index) );
+    this.people.value.forEach((index: number) => this.removePerson(index) );
     this.taskForm.reset();
     this.closebutton.nativeElement.click();
     this.alertsService.alertSuccess('Tarea Creada!');
   }
 }
 
-// Validador de nombres únicos
 export function uniqueNameValidator(): ValidatorFn {
   return (formArray: AbstractControl): ValidationErrors | null => {
-    if (!(formArray instanceof FormArray)) {
-      return null;
-    }
-
-    const names = formArray.controls.map(control => control.get('name')?.value);
+    if (!(formArray instanceof FormArray)) return null;
+    const names = formArray.controls.map(control => control.get('name')?.value?.trim().toLowerCase());
     const hasDuplicate = names.some((name, index) => names.indexOf(name) !== index);
     return hasDuplicate ? { duplicateName: true } : null;
   };
