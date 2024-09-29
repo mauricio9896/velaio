@@ -1,61 +1,57 @@
-<div class="container-fluid content">
-  <div class="row justify-content-start my-4">
+<div class="container-fluid mb-4 content">
+  <div class="row justify-content-start my-4 d-flex">
+    <h6>Filtrar por</h6>
     <div class="col-md-3">
       <select class="form-select" (change)="filterTasks()" [(ngModel)]="filter">
         <option value="all" selected>Todas</option>
-        <option value="completed">Completadas</option>
-        <option value="pending">Pendientes</option>
+        <option value="completed">Tareas Completadas</option>
+        <option value="pending">Tareas Pendientes</option>
       </select>
     </div>
   </div>
 
-  <div class="row justify-content-center">
-    <div class="col-md-11">
-      <table class="table table-hover custom-table">
-        <thead class="table-light">
-          <tr>
-            <th scope="col">Tarea</th>
-            <th scope="col">Fecha Límite</th>
-            <th scope="col">Personas Asignadas</th>
-            <th scope="col">Completada</th>
-            <th scope="col">Borrar</th>
-          </tr>
-        </thead>
-        <tbody>
-          <ng-container *ngIf="tasks.length > 0; else emptyTable;">
-            <tr *ngFor="let task of tasks; let i = index">
-              <td [ngClass]="{'custom-row': i % 2 === 0}">{{task.taskName}}</td>
-              <td [ngClass]="{'custom-row': i % 2 === 0}">{{task.taskDate}}</td>
-              <td [ngClass]="{'custom-row': i % 2 === 0}">
-                <div class="container-fluid" *ngFor="let person of task.people; let j = index">
-                  <strong>Nombre: </strong> {{person.name}}, <br>
-                  <strong>Edad: </strong> {{person.age}}, <br>
-                  <strong>Habilidades: </strong>
-                  <span *ngFor="let skill of person.skills; let i = index">{{skill.nameSkill}}
-                    <span *ngIf="i !== person.skills.length - 1">, </span>
-                  </span>
-                  <hr *ngIf="j !== task.people.length - 1">
-                </div>
-              </td>
-              <td [ngClass]="{'custom-row': i % 2 === 0}">
-                <div class="form-check d-flex justify-content-center">
-                  <input class="form-check-input" type="checkbox" [(ngModel)]="task.completed"
-                    (change)="completedTask($event, task)">
-                </div>
-              </td>
-              <td [ngClass]="{'custom-row': i % 2 === 0}">
-                <mat-icon id="deleteTaskIcon" (click)="deleteTask(task)" matTooltip="Borrar Tarea">delete</mat-icon>
-              </td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
-    </div>
+  <div class="row">
+    <ng-container *ngIf="tasks.length > 0; else emptyData;">
+      <div class="col-12 col-sm-6 col-md-4" *ngFor="let task of tasks">
+        <div class="card mb-3">
+          <div class="card-body p-0">
+            <div class="title-card px-3 pt-3">
+              <h5 class="card-title" [ngClass]="task.completed ? 'completed': 'pending'" >{{ task.taskName }} / {{task.completed ? 'Realizada' : 'Pendiente' }}</h5>
+              <h6 class="card-subtitle mb-4 text-muted"><strong>Fecha Límite:</strong> {{ task.taskDate }}</h6>
+            </div>
+
+            <div class="px-3" *ngFor="let person of task.people">
+              <strong>Nombre:</strong> {{ person.name }} <br>
+              <strong>Edad:</strong> {{ person.age }} <br>
+              <strong>Habilidades:</strong>
+              <span *ngFor="let skill of person.skills"> {{ skill.nameSkill }}
+                <span *ngIf="skill !== person.skills[person.skills.length - 1]">, </span>
+              </span>
+              <hr *ngIf="person !== task.people[task.people.length - 1]">
+            </div>
+
+            <div class="d-flex justify-content-between mt-3 px-3 pb-3">
+              <div class="col-md-4">
+                <button class="btn btn-danger w-100" (click)="deleteTask(task)">Borrar</button>
+              </div>
+              <div class="col-md-4" *ngIf="!task.completed" >
+                <button class="btn btn-success" (click)="deleteTask(task)">Completar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>
 
-<ng-template #emptyTable>
-  <tr class="text-center">
-    <td colspan="5">No hay tareas</td>
-  </tr>
+<ng-template #emptyData>
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">No Hay Tareas Disponibles</h5>
+      <p class="card-text">
+        Por favor agrega una tarea
+      </p>
+    </div>
+  </div>
 </ng-template>

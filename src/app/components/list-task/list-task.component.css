@@ -26,3 +26,15 @@
   cursor: pointer;
   color: red;
 }
+
+.completed{
+  color: rgb(26, 135, 84);
+}
+
+.pending{
+  color: rgb(255, 103, 8);
+}
+
+.form-select{
+  cursor: pointer;
+}
