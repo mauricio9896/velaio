@@ -62,17 +62,15 @@ export class CreateTaskComponent implements OnInit {
   private alertsService = inject(AlertsService);
   private fb = inject(FormBuilder);
 
-  taskForm: FormGroup;
+  taskForm: FormGroup = this.fb.group({
+    id: '',
+    taskName: ['', Validators.required],
+    taskDate: ['', Validators.required],
+    people: this.fb.array([]),
+    completed: false
+  });;
 
-  constructor() {
-    this.taskForm = this.fb.group({
-      id: '',
-      taskName: ['', Validators.required],
-      taskDate: ['', Validators.required],
-      people: this.fb.array([]),
-      completed: false
-    });
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.taskForm.get('people')?.setValidators([Validators.required, uniqueNameValidator()]);
@@ -125,7 +123,7 @@ export class CreateTaskComponent implements OnInit {
     this.alertsService.alertSuccess('Tarea Creada!');
   }
 
-  generateId() {
+  generateId(): string {
     const timestamp = Date.now().toString(36);
     const randomPart = Math.random().toString(36).substring(2, 6);
     const id = `${timestamp}-${randomPart}`;

@@ -1,8 +1,7 @@
-import { Component, inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TaskModel } from 'src/app/models/task.model';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { TaskService } from 'src/app/services/task.service';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-task',
@@ -24,13 +23,13 @@ export class ListTaskComponent implements OnInit  {
     });
   }
 
-  completedTask(task: TaskModel) {
+  completedTask(task: TaskModel): void{
     task.completed = true;
     this.taskService.updateTasks(this.tasks);
     this.alertsService.alertSuccess('Tarea actualizada correctamente');
   }
 
-  filterTasks(){
+  filterTasks(): void{
     this.tasks = this.taskService.tasks;
     this.tasks =  this.tasks.filter(task => {
       if (this.filter === 'completed') return task.completed;
@@ -39,7 +38,7 @@ export class ListTaskComponent implements OnInit  {
     });
   }
 
-  deleteTask(task: TaskModel){
+  deleteTask(task: TaskModel): void{
     if(!task.id) return this.alertsService.alertError('Task not found');
     this.taskService.deleteTask(task.id);
     this.alertsService.alertSuccess('Tarea eliminada correctamente');
