@@ -32,7 +32,7 @@
 
             <div class="d-flex justify-content-between mt-3 px-3 pb-3">
               <div class="col-md-4">
-                <button class="btn btn-danger w-100" (click)="deleteTask(task)">Borrar</button>
+                <button class="btn btn-danger" (click)="deleteTask(task)">Borrar</button>
               </div>
               <div class="col-md-4" *ngIf="!task.completed" >
                 <button class="btn btn-success" (click)="completedTask(task)">Completar</button>
@@ -46,12 +46,14 @@
 </div>
 
 <ng-template #emptyData>
-  <div class="card mb-3">
-    <div class="card-body">
-      <h5 class="card-title">No Hay Tareas Disponibles</h5>
-      <p class="card-text">
-        Por favor agrega una tarea
-      </p>
+  <div class="col-12 col-sm-6 col-md-4">
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">No Hay Tareas Disponibles</h5>
+        <p class="card-text">
+          Por favor agrega una tarea
+        </p>
+      </div>
     </div>
   </div>
 </ng-template>
