@@ -19,7 +19,7 @@ export class ListTaskComponent implements OnInit  {
   constructor() { }
 
   ngOnInit(): void {
-    this.taskService.tasks$.subscribe((tasks) => {
+    this.taskService.tasks$.subscribe(() => {
       this.filterTasks();
     });
   }
@@ -40,21 +40,8 @@ export class ListTaskComponent implements OnInit  {
   }
 
   deleteTask(task: TaskModel){
-    Swal.fire({
-      title: "¿Estás seguro de eliminar esta tarea?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, Eliminar!",
-      cancelButtonText: "Cancelar"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        if(!task.id) return this.alertsService.alertError('Task not found');
-        this.taskService.deleteTask(task.id);
-        this.alertsService.alertSuccess('Tarea eliminada correctamente');
-      }
-    });
-
+    if(!task.id) return this.alertsService.alertError('Task not found');
+    this.taskService.deleteTask(task.id);
+    this.alertsService.alertSuccess('Tarea eliminada correctamente');
   }
 }
