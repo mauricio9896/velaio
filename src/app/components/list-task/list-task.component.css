@@ -22,4 +22,7 @@
   background-color: #f0f8ff !important;
 }
 
-/* const colors = ['#f0f8ff', '#e6e6fa']; */
+#deleteTaskIcon{
+  cursor: pointer;
+  color: red;
+}

@@ -66,6 +66,7 @@ export class CreateTaskComponent implements OnInit {
 
   constructor() {
     this.taskForm = this.fb.group({
+      id: '',
       taskName: ['', Validators.required],
       taskDate: ['', Validators.required],
       people: this.fb.array([]),
@@ -116,11 +117,19 @@ export class CreateTaskComponent implements OnInit {
   }
 
   saveTask(): void {
+    this.taskForm.get("id")?.setValue(this.generateId())
     this.taskService.addTask(this.taskForm.value);
     this.people.value.forEach((index: number) => this.removePerson(index) );
     this.taskForm.reset();
     this.closebutton.nativeElement.click();
     this.alertsService.alertSuccess('Tarea Creada!');
+  }
+
+  generateId() {
+    const timestamp = Date.now().toString(36);
+    const randomPart = Math.random().toString(36).substring(2, 6);
+    const id = `${timestamp}-${randomPart}`;
+    return id;
   }
 }
 

@@ -1,6 +1,16 @@
 <div class="container-fluid content">
   <h4 class="my-4">Listado de tareas</h4>
 
+  <div class="row justify-content-end my-4">
+    <div class="col-md-3">
+      <select class="form-select" (change)="filterTasks()" [(ngModel)]="filter">
+        <option value="all" selected>Todas</option>
+        <option value="completed">Completadas</option>
+        <option value="pending">Pendientes</option>
+      </select>
+    </div>
+  </div>
+
   <div class="row justify-content-center">
     <div class="col-md-11">
       <table class="table table-hover w-100 custom-table">
@@ -10,6 +20,7 @@
             <th scope="col">Fecha Límite</th>
             <th scope="col">Personas Asignadas</th>
             <th scope="col">Completada</th>
+            <th scope="col">Borrar</th>
           </tr>
         </thead>
         <tbody>
@@ -31,8 +42,11 @@
               <td [ngClass]="{'custom-row': i % 2 === 0}">
                 <div class="form-check d-flex justify-content-center">
                   <input class="form-check-input" type="checkbox" [(ngModel)]="task.completed"
-                    (change)="onCheckboxChange($event, task)">
+                    (change)="completedTask($event, task)">
                 </div>
+              </td>
+              <td [ngClass]="{'custom-row': i % 2 === 0}">
+                <mat-icon id="deleteTaskIcon" (click)="deleteTask(task)" matTooltip="Borrar Tarea">delete</mat-icon>
               </td>
             </tr>
           </ng-container>
@@ -44,6 +58,6 @@
 
 <ng-template #emptyTable>
   <tr class="text-center">
-    <td colspan="4">No hay tareas</td>
+    <td colspan="5">No hay tareas</td>
   </tr>
 </ng-template>
